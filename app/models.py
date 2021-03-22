@@ -13,7 +13,7 @@ class Topic(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('topic_group.id'))
 
     def __repr__(self):
-        return '<Topic {}>'.format(self.title)
+        return '{}'.format(self.title)
 
 
 class TopicGroup(db.Model):
@@ -26,4 +26,4 @@ class TopicGroup(db.Model):
     topics = db.relationship(Topic, backref='group', lazy=True)
 
     def __repr__(self):
-        return '<TopicGroup {}>'.format(self.title)
+        return '{}'.format(self.title)

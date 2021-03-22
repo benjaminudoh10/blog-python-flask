@@ -7,3 +7,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_FILE') or \
         'sqlite:///' + os.path.join(basedir, 'blog.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.environ.get('BLOG_SECRET_KEY') or 'extremely secretive'
+
+    FLASK_ADMIN_SWATCH = 'lumen'
+
