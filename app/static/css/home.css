@@ -3,6 +3,13 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+#nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -10,8 +17,7 @@ nav {
     background-color: transparent;
     border-bottom: 1px solid black;
     padding: 15px 200px;
-    position: fixed;
-    width: 78%;
+    /* width: 78%; */
     backdrop-filter: blur(10px);
 }
 
