@@ -52,6 +52,10 @@ nav > ul li#button {
     border-bottom: 1px solid black;
 }
 
+#explore img {
+    pointer-events: none;
+}
+
 #explore-content {
     width: 100%;
 }
@@ -97,8 +101,12 @@ nav > ul li#button {
 }
 
 .trends {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 15px;
+    row-gap: 10px;
+    justify-items: center;
     align-items: center;
 }
 
@@ -137,6 +145,8 @@ nav > ul li#button {
 
 .trend .details .blog-title {
     font-weight: bolder;
+    text-decoration: none;
+    color: inherit;
 }
 
 .trend .details .date {
@@ -163,11 +173,16 @@ nav > ul li#button {
 }
 
 .post img {
-    width: 350px;
+    width: 250px;
 }
 
 .post .content {
     margin-right: 35px;
+}
+
+.post .content a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .post .content .author {
@@ -212,6 +227,11 @@ nav > ul li#button {
     cursor: pointer;
 }
 
+#main #discover {
+    padding-bottom: 25px;
+    border-bottom: 1px solid grey;
+}
+
 #main #discover p {
     text-transform: uppercase;
     font-weight: 700;
@@ -239,4 +259,30 @@ nav > ul li#button {
     border-radius: 8px;
     margin-right: 15px;
     margin-bottom: 15px;
+}
+
+#loader {
+    padding: 15px 200px 45px;
+}
+
+.comment {
+    height: 10px;
+    background: #777;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.animate {
+    animation : shimmer 2s infinite;
+    background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+    background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
 }

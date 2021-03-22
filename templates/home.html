@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
@@ -52,255 +54,62 @@
                 <span>Trending on the blog</span>
             </div>
             <div class="trends">
+                {% for trend in trends %}
                 <div class="trend">
-                    <div class="number">01</div>
+                    <div class="number">0{{ loop.index }}</div>
                     <div class="details">
                         <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" />
-                            <span>Coinbase in The Coinbase Blog</span>
+                            <img src="{{ trend.image_url }}" alt="trend-image" />
+                            <span>{{ trend.name }}</span>
                         </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
+                        <a href="{{ trend.url }}" class="blog-title">{{ trend.title }}</a>
+                        <p class="date">{{ trend.date }} · {{ trend.time }} min read</p>
                     </div>
                 </div>
-                <div class="trend">
-                    <span class="number">02</span>
-                    <div class="details">
-                        <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" width="30px"/>
-                            <span>Coinbase in The Coinbase Blog</span>
-                        </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
-                    </div>
-                </div>
-                <div class="trend">
-                    <div class="number">03</div>
-                    <div class="details">
-                        <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" />
-                            <span>Coinbase in The Coinbase Blog</span>
-                        </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
-                    </div>
-                </div>
-            </div>
-            <div class="trends">
-                <div class="trend">
-                    <div class="number">04</div>
-                    <div class="details">
-                        <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" />
-                            <span>Coinbase in The Coinbase Blog</span>
-                        </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
-                    </div>
-                </div>
-                <div class="trend">
-                    <span class="number">05</span>
-                    <div class="details">
-                        <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" width="30px"/>
-                            <span>Coinbase in The Coinbase Blog</span>
-                        </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
-                    </div>
-                </div>
-                <div class="trend">
-                    <div class="number">06</div>
-                    <div class="details">
-                        <div class="top">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="trend-image" />
-                            <span>Coinbase in The Coinbase Blog</span>
-                        </div>
-                        <p class="blog-title">Cardano (ADA) is now available on Coinbase for free</p>
-                        <p class="date">Mar 19 · 1 min read</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
         <div id="main">
             <div id="posts">
+                {% for post in posts %}
                 <div class="post">
                     <div class="content">
                         <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
+                            <img src="{{ post.author_img }}" alt="author-image" />
+                            <span>{{ post.author_name }}</span>
                         </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
+                        <a href="{{ post.url }}">
+                            <h3 class="blog-title">{{ post.title }}</h3>
+                            <p class="short-description">{{ post.short_description }}</p>
+                        </a>
                         <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
+                            <p class="date">{{ post.date }} · {{ post.time }} min read</p>
                             <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
                                 <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
                             </svg>
                         </div>
                     </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
+                    <a href="{{ post.url }}">
+                        <img src="{{ post.post_image }}" alt="post-image" />
+                    </a>
                 </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
-                <div class="post">
-                    <div class="content">
-                        <div class="author">
-                            <img src="https://miro.medium.com/fit/c/40/40/1*gBXfxLQiRiP5NycsMHPzKA.png" alt="author-image" />
-                            <span>Amardeep Parmar in The Ascent</span>
-                        </div>
-                        <h3 class="blog-title">20 Realistic Micro-Habits To Live Better Every Day</h3>
-                        <p class="short-description">
-                            I had no idea when I would be ready to write this. Part of me thought it would be early on, when 
-                            I was still really feeling the pain of...
-                        </p>
-                        <div class="bottom">
-                            <p class="date">Oct 27, 2020 · 1 min read</p>
-                            <svg width="25" height="25" viewBox="0 0 25 25" class="ln">
-                                <path d="M19 6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14.66h.01c.01.1.05.2.12.28a.5.5 0 0 0 .7.03l5.67-4.12 5.66 4.13a.5.5 0 0 0 .71-.03.5.5 0 0 0 .12-.29H19V6zm-6.84 9.97L7 19.64V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v13.64l-5.16-3.67a.49.49 0 0 0-.68 0z" fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <img src="https://miro.medium.com/fit/c/400/266/1*9thI6TLvLDpxOYsIQA8vLw.png" alt="post-image" />
-                </div>
+                {% endfor %}
             </div>
             <div id="discover">
                 <p>Discover more of what matters to you</p>
                 <div id="items">
-                    <a href="#">Self</a>
-                    <a href="#">Relationships</a>
-                    <a href="#">Data Science</a>
-                    <a href="#">Programming</a>
-                    <a href="#">Productivity</a>
-                    <a href="#">Javascript</a>
-                    <a href="#">Machine Learning</a>
-                    <a href="#">Politics</a>
-                    <a href="#">Health</a>
+                    {% for topic in topics %}
+                        <a href="#">{{ topic }}</a>
+                    {% endfor %}
                 </div>
                 <a href="#">See all topics</a>
             </div>
+        </div>
+
+        <div id="loader">
+            <div class="comment animate"></div>
+            <div class="comment animate"></div>
         </div>
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/home.js') }}"></script>
