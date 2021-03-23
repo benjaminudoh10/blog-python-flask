@@ -1,0 +1,79 @@
+h1 {
+    font-size: 32px;
+    font-weight: bold;
+    padding: 150px 200px 0;
+    margin-bottom: 20px;
+}
+
+.topic-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 200px 50px;
+}
+
+.topic-group > .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.topic-group > .header > .group {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    padding-bottom: 15px;
+}
+
+.topic-group > .header > .empty {
+    border-bottom: 1px solid #cccccc;
+}
+
+.topic-group > .grid {
+    padding: 5px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    column-gap: 25px;
+    row-gap: 25px;
+    justify-items: center;
+    align-items: center;
+}
+
+.topic-group > .grid > .content {
+    min-width: 300px;
+}
+
+.topic-group > .grid > .content > .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px 5px;
+    border: 1px solid #cccccc;
+    border-radius: 3px 3px 0 0;
+}
+
+.topic-group > .grid > .content > .top > h3 {
+    font-weight: bold;
+}
+
+.topic-group > .grid > .content > .top > span {
+    border: 1px solid grey;
+    cursor: pointer;
+    padding: 0;
+    width: 37px;
+    height: 37px;
+    line-height: 32px;
+    text-align: center;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+}
+
+.topic-group > .grid > .content > .top > span > svg {
+    fill: #1a8917;
+    vertical-align: middle;
+}
+
+.topic-group > .grid > .content > img {
+    width: 300px;
+}

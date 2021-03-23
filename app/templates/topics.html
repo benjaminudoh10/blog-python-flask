@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/topics.css') }}">
+{% endblock %}
+
+{% block content %}
+    {{ super() }}
+    <h1>Explore topics</h1>
+    {% for group in groups %}
+    <div class="topic-group">
+        <div class="header">
+            <h3 class="group">{{ group.title }}</h3>
+            <h3 class="empty"></h3>
+        </div>
+        <div class="grid">
+            {% for topic in group.topics %}
+            <div class="content">
+                <div class="top">
+                    <h3>{{ topic.title }}</h3>
+                    <span>
+                        <svg width="25" height="25">
+                            <path d="M20 12h-7V5h-1v7H5v1h7v7h1v-7h7" fill-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </div>
+                <img src="{{ topic.image }}" alt="topic-image" />
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

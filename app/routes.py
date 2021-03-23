@@ -6,11 +6,7 @@ from . import app, models, db
 
 @app.route('/')
 def home():
-    topics = [
-        'Self', 'Relationships', 'Data Science', 'Programming',
-        'Productivity', 'Javascipt', 'Machine Learning', 'Politics',
-        'Health', 'A new song'
-    ]
+    topics = models.Topic.get_topics()
 
     trends = [
         {
@@ -112,6 +108,15 @@ def home():
         'posts': posts
     }
     return render_template('home.html', **context)
+
+@app.route('/topics')
+def topics():
+    topic_groups = models.TopicGroup.get()
+
+    context = {
+        'groups': topic_groups
+    }
+    return render_template('topics.html', **context)
 
 @app.route('/posts')
 def posts():
