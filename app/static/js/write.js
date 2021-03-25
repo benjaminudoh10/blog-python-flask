@@ -68,6 +68,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const publishButton = document.getElementById('publish');
     publishButton.addEventListener('click', async function () {
         const jsonData = await editor.save();
-        console.log(jsonData);
+        if (jsonData.blocks[0].type !== 'header') {
+            alert('Your article should have a header as the first element. The header represents the title of the article.')
+            return
+        }
+
+        await fetch(`${window.location.origin}/new-story`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        });
+        setTimeout(function () {
+            window.location.replace(window.location.origin);
+        }, 1000)
     });
 });

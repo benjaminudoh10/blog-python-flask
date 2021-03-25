@@ -5,6 +5,6 @@
 - Create a virtual environemnt using `python3 -m venv <env-path>`.
 - Activate the virtual environment using `source <env-path>/bin/activate` (unix).
 - Install the required libraries using `pip3 install -r requirements.txt`.
-- Run `export FLASK_APP=app` (unix).
-- Run `export FLASK_ENV=development` (unix).
+- Run `flask db migrate`.
+- Run `flask db upgrade` to create the db.
 - Run the command `flask run` which starts the server on port 5000 in debug mode.

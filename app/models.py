@@ -35,3 +35,25 @@ class TopicGroup(db.Model):
 
     def __repr__(self):
         return '{}'.format(self.title)
+
+
+class Article(db.Model):
+    '''
+    This model describes an article.
+    '''
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
+
+    @classmethod
+    def get(cls, id):
+        return cls.query.get(id)
+    
+    @classmethod
+    def insert(cls, article):
+        article = cls(**article)
+        db.session.add(article)
+        db.session.commit()
+        return article

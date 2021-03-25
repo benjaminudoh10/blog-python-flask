@@ -1,4 +1,5 @@
 import os
+import json
 from flask import render_template
 from flask import request, jsonify, redirect, url_for, request
 from datetime import datetime
@@ -151,7 +152,13 @@ def posts():
 def new_story():
     if request.method == 'POST':
         data = request.get_json()
-        
+        article = {
+            'content': json.dumps(data),
+            'title': data['blocks'][0]['data']['text']
+        }
+        models.Article.insert(article)
+        return 'true'
+
     return render_template('write.html')
 
 @app.route('/story/fetch_url', methods=['POST'])
