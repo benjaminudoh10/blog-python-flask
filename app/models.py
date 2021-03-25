@@ -50,7 +50,11 @@ class Article(db.Model):
     @classmethod
     def get(cls, id):
         return cls.query.get(id)
-    
+
+    @classmethod
+    def get_all_articles(cls):
+        return cls.query.all()
+
     @classmethod
     def insert(cls, article):
         article = cls(**article)

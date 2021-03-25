@@ -161,6 +161,16 @@ def new_story():
 
     return render_template('write.html')
 
+@app.route('/stories')
+def stories():
+    articles = models.Article.get_all_articles()
+    return render_template('articles.html', articles=articles, strftime=datetime.strftime)
+
+@app.route('/story/<int:story_id>')
+def story(story_id):
+    article = models.Article.get(story_id)
+    return render_template('article.html', article=article)
+
 @app.route('/story/fetch_url', methods=['POST'])
 def upload_by_url():
     return {

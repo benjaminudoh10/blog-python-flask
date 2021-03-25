@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+    {{ super() }}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}" /> -->
+{% endblock %}
+
+{% block title %}
+    {{ article.title }} - Our Blog
+{% endblock %}
+
+{% block content %}
+    {% block navbar %}{% endblock %}
+
+    <div id="editor-container">
+        <div id="editor"></div>
+    </div>
+
+    {% block scripts %}
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/editorjs-alert@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script>
+        <script src="{{ url_for('static', filename='js/write.js') }}"></script> -->
+        <script>
+            const BlogContent = JSON.parse({{ article.content | tojson }});
+        </script>
+        <script src="{{ url_for('static', filename='js/article.js') }}"></script>
+    {% endblock %}
+{% endblock %}
