@@ -1,0 +1,46 @@
+#pub-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#publish-bar {
+    padding: 10px 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0;
+}
+
+#publish-bar > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#publish-bar > div > svg {
+    margin-right: 10px;
+}
+
+#publish-bar > div > p {
+    color: #333333;
+    font-size: 15px;
+}
+
+#publish-bar > span {
+    padding: 5px 10px;
+    color: white;
+    background-color: #1a8917;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#publish-bar > span:hover {
+    background-color: #0f730c;
+}
+
+#editor-container {
+    margin: 100px 250px 0;
+}

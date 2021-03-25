@@ -1,3 +1,4 @@
 blog-env/
 __pycache__/
 *.db
+**/blog-images/

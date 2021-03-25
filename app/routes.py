@@ -1,8 +1,11 @@
+import os
 from flask import render_template
-from flask import request, jsonify, redirect, url_for
+from flask import request, jsonify, redirect, url_for, request
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 from . import app, models, db
+from .utils import allowed_file
 
 @app.route('/')
 def home():
@@ -143,3 +146,44 @@ def posts():
         },
     ]
     return jsonify(posts)
+
+@app.route('/new-story', methods=['GET', 'POST'])
+def new_story():
+    if request.method == 'POST':
+        data = request.get_json()
+        
+    return render_template('write.html')
+
+@app.route('/story/fetch_url', methods=['POST'])
+def upload_by_url():
+    return {
+        'success' : 1,
+        'file': {
+            'url': request.get_json()['url'],
+        }
+    }
+
+@app.route('/story/upload_file', methods=['POST'])
+def upload_file():
+    failed_response = {
+        'success': 0
+    }
+
+    if request.method == 'POST':
+        if 'image' not in request.files:
+            return failed_response
+
+        file = request.files['image']
+        if file.filename == '':
+            return failed_response
+        if file and allowed_file(file.filename, app.config['ALLOWED_EXTENSIONS']):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return {
+                'success' : 1,
+                'file': {
+                    'url': url_for('static', filename=f'images/blog-images/{filename}'),
+                }
+            }
+
+    return failed_response

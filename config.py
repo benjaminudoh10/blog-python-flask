@@ -10,4 +10,5 @@ class Config(object):
     SECRET_KEY = os.environ.get('BLOG_SECRET_KEY') or 'extremely secretive'
 
     FLASK_ADMIN_SWATCH = 'lumen'
-
+    UPLOAD_FOLDER = f'{basedir}/app/static/images/blog-images'
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/write.css') }}" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@5.23.2/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+{% endblock %}
+
+{% block title %}
+    New Story - Our Blog
+{% endblock %}
+
+{% block content %}
+    {% block navbar %}{% endblock %}
+    <div id="pub-bar">
+        <nav id="publish-bar">
+            <div>
+                {% include 'snippets/short-logo.html' %}
+                <p>Draft in Benjamin Udoh</p>
+            </div>
+            <span id="publish">Publish</span>
+        </nav>
+    </div>
+    <div id="editor-container">
+        <div id="editor"></div>
+    </div>
+
+    {% block scripts %}
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/editorjs-alert@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script>
+        <script src="{{ url_for('static', filename='js/write.js') }}"></script>
+    {% endblock %}
+{% endblock %}
