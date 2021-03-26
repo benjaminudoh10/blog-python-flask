@@ -164,7 +164,7 @@ def new_story():
 @app.route('/stories')
 def stories():
     articles = models.Article.get_all_articles()
-    return render_template('articles.html', articles=articles, strftime=datetime.strftime)
+    return render_template('articles.html', articles=articles)
 
 @app.route('/story/<int:story_id>')
 def story(story_id):

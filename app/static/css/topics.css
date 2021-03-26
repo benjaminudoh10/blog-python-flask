@@ -14,15 +14,11 @@ h1 {
 }
 
 .topic-group > .header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
+    border-bottom: 1px solid black;
 }
 
 .topic-group > .header > .group {
     font-weight: bold;
-    border-bottom: 1px solid black;
-    padding-bottom: 15px;
 }
 
 .topic-group > .header > .empty {
@@ -38,6 +34,8 @@ h1 {
     row-gap: 25px;
     justify-items: center;
     align-items: center;
+    padding-top: 25px;
+    border-top: 1px solid #cccccc;
 }
 
 .topic-group > .grid > .content {

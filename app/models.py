@@ -1,4 +1,6 @@
+import json
 from datetime import datetime
+
 from . import db
 
 
@@ -14,7 +16,21 @@ class Topic(db.Model):
 
     @classmethod
     def get_topics(cls, number = 10):
-        return cls.query.limit(number)
+        topics = cls.query.limit(number).all()
+        return cls.to_json(topics)
+
+    @classmethod
+    def to_json(cls, data):
+        if isinstance(data, cls):
+            return {
+                'id': data.id,
+                'title': data.title,
+                'description': data.description,
+                'image': data.image,
+                'group': TopicGroup.to_json(data.group, False)
+            }
+        elif isinstance(data, list):
+            return list(map(cls.to_json, data))
 
     def __repr__(self):
         return '{}'.format(self.title)
@@ -31,7 +47,19 @@ class TopicGroup(db.Model):
 
     @classmethod
     def get(cls):
-        return cls.query.all()
+        groups = cls.query.all()
+        return cls.to_json(groups)
+
+    @classmethod
+    def to_json(cls, data, include_topics=True):
+        if isinstance(data, cls):
+            return {
+                'id': data.id,
+                'title': data.title,
+                'topics': include_topics and Topic.to_json(data.topics) or None
+            }
+        elif isinstance(data, list):
+            return list(map(cls.to_json, data))
 
     def __repr__(self):
         return '{}'.format(self.title)
@@ -49,15 +77,30 @@ class Article(db.Model):
 
     @classmethod
     def get(cls, id):
-        return cls.query.get(id)
+        article = cls.query.get(id)
+        return cls.to_json(article)
 
     @classmethod
     def get_all_articles(cls):
-        return cls.query.all()
+        articles = cls.query.all()
+        return cls.to_json(articles)
 
     @classmethod
     def insert(cls, article):
         article = cls(**article)
         db.session.add(article)
         db.session.commit()
-        return article
+        return cls.to_json(article)
+
+    @classmethod
+    def to_json(cls, data):
+        if isinstance(data, cls):
+            return {
+                'id': data.id,
+                'title': data.title,
+                'content': json.loads(data.content),
+                'created_at': datetime.strftime(data.created_at, '%a %d, %Y'),
+                'updated_at': data.updated_at.isoformat(),
+            }
+        elif isinstance(data, list):
+            return list(map(cls.to_json, data))

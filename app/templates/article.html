@@ -30,7 +30,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/underline@latest"></script>
         <script src="{{ url_for('static', filename='js/write.js') }}"></script> -->
         <script>
-            const BlogContent = JSON.parse({{ article.content | tojson }});
+            const BlogContent = {{ article.content | tojson }};
         </script>
         <script src="{{ url_for('static', filename='js/article.js') }}"></script>
     {% endblock %}

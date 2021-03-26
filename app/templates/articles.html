@@ -32,7 +32,7 @@
             <div class="article">
                 <h3><a href="/story/{{ article.id }}">{{ article.title }}</a></h3>
                 <p><a href="/story/{{ article.id }}">MongoDB is a popular NoSQL (not only SQL) database which has seen wide adoption in the industry because of its ease of use and efficiency.</a></p>
-                <p>Published on {{ strftime(article.created_at, '%a %d, %Y') }} · 2 min read</p>
+                <p>Published on {{ article.created_at }} · 2 min read</p>
             </div>
         {% endfor %}
     </div>
