@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 
 from . import db
+from .parser import BlogContentParser
 
 
 class Topic(db.Model):
@@ -95,10 +96,11 @@ class Article(db.Model):
     @classmethod
     def to_json(cls, data):
         if isinstance(data, cls):
+            content = json.loads(data.content)
             return {
                 'id': data.id,
                 'title': data.title,
-                'content': json.loads(data.content),
+                'content': BlogContentParser(content).html(),
                 'created_at': datetime.strftime(data.created_at, '%a %d, %Y'),
                 'updated_at': data.updated_at.isoformat(),
             }
