@@ -10,10 +10,15 @@ from flask import (
     request,
     render_template,
 )
+from flask_login import login_required, login_user, logout_user
 from werkzeug.utils import secure_filename
+from oauthlib.oauth2 import WebApplicationClient
+import requests
 
-from . import app, models, db
-from .utils import allowed_file
+from . import app, models
+from .utils import allowed_file, get_google_provider_cfg
+
+client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
 @app.route('/')
 def home():
@@ -119,6 +124,82 @@ def home():
         'posts': posts
     }
     return render_template('home.html', **context)
+
+@app.route('/login')
+def login():
+    google_provider_cfg = get_google_provider_cfg()
+    authorization_endpoint = google_provider_cfg['authorization_endpoint']
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=f'{request.base_url}/callback',
+        scope=['openid', 'email', 'profile'],
+    )
+
+    return redirect(request_uri)
+
+@app.route('/login/callback')
+def login_callback():
+    # Get authorization code Google sent back to you
+    code = request.args.get('code')
+
+    # Find out what URL to hit to get tokens that allow you to ask for
+    # things on behalf of a user
+    google_provider_cfg = get_google_provider_cfg()
+    token_endpoint = google_provider_cfg['token_endpoint']
+
+    # Prepare and send a request to get tokens! Yay tokens!
+    token_url, headers, body = client.prepare_token_request(
+        token_endpoint,
+        authorization_response=request.url,
+        redirect_url=request.base_url,
+        code=code
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(app.config['GOOGLE_CLIENT_ID'], app.config['GOOGLE_CLIENT_SECRET']),
+    )
+
+    # Parse the tokens!
+    client.parse_request_body_response(json.dumps(token_response.json()))
+
+    # Now that you have tokens (yay) let's find and hit the URL
+    # from Google that gives you the user's profile information,
+    # including their Google profile image and email
+    userinfo_endpoint = google_provider_cfg['userinfo_endpoint']
+    uri, headers, body = client.add_token(userinfo_endpoint)
+    userinfo_response = requests.get(uri, headers=headers, data=body)
+    userinfo_response_json = userinfo_response.json()
+
+    # You want to make sure their email is verified.
+    # The user authenticated with Google, authorized your
+    # app, and now you've verified their email through Google!
+    if not userinfo_response_json.get('email_verified'):
+        return redirect(url_for('home'))
+
+    sub = userinfo_response_json['sub']
+    email = userinfo_response_json['email']
+    profile_pic = userinfo_response_json['picture']
+    name = userinfo_response_json['given_name']
+
+    user_json = {
+        'sub': sub,
+        'email': email,
+        'name': name,
+        'profile_pic': profile_pic,
+    }
+    user = models.User.get_or_create(user_json)
+
+    login_user(user)
+
+    return redirect(url_for('home'))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/topics')
 def topics():

@@ -23,7 +23,12 @@
                         <li><a href="#">Our Story</a></li>
                         <li><a href="#">Membership</a></li>
                         <li><a href="#">Write</a></li>
-                        <li><a href="#">Sign In</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a href="/logout">Logout</a></li>
+                        {% else %}
+                            {{ current_user.name }}
+                            <li><a href="/login">Login with Google</a></li>
+                        {% endif %}
                         <li id="button"><a href="#">Get Started</a></li>
                     </ul>
                 </nav>

@@ -3,3 +3,4 @@ __pycache__/
 *.db
 **/blog-images/
 .DS_Store
+.env
