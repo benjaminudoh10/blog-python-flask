@@ -7,4 +7,4 @@
 - Install the required libraries using `pip3 install -r requirements.txt`.
 - Run `flask db migrate`.
 - Run `flask db upgrade` to create the db.
-- Run the command `flask run` which starts the server on port 5000 in debug mode.
+- Run the command `flask run --cert=adhoc` which starts the server on port 5000 in debug mode.
