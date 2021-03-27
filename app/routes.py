@@ -1,8 +1,15 @@
 import os
 import json
-from flask import render_template
-from flask import request, jsonify, redirect, url_for, request
 from datetime import datetime
+
+from flask import (
+    request,
+    jsonify,
+    redirect,
+    url_for,
+    request,
+    render_template,
+)
 from werkzeug.utils import secure_filename
 
 from . import app, models, db

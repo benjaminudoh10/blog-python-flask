@@ -1,9 +1,10 @@
 from flask import Flask
-from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -18,5 +19,6 @@ def after_request(response):
     return response
 
 from . import routes, models
+
 admin.add_view(ModelView(models.Topic, db.session))
 admin.add_view(ModelView(models.TopicGroup, db.session))

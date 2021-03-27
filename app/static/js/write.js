@@ -98,6 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         setTimeout(function () {
             window.location.replace(`${window.location.origin}/stories`);
-        }, 1000)
+        }, 1000);
     });
 });
