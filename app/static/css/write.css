@@ -1,4 +1,4 @@
-#publish-bar {
+#save-bar {
     padding: 10px 250px;
     display: flex;
     justify-content: space-between;
@@ -6,22 +6,22 @@
     border-bottom: 0;
 }
 
-#publish-bar > div {
+#save-bar > div {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#publish-bar > div > svg {
+#save-bar > div > svg {
     margin-right: 10px;
 }
 
-#publish-bar > div > p {
+#save-bar > div > p {
     color: #333333;
     font-size: 15px;
 }
 
-#publish-bar > span {
+#save-bar > span {
     padding: 5px 10px;
     color: white;
     background-color: #1a8917;
@@ -30,7 +30,7 @@
     font-size: 12px;
 }
 
-#publish-bar > span:hover {
+#save-bar > span:hover {
     background-color: #0f730c;
 }
 

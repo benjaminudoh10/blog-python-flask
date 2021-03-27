@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
         holder: 'editor',
         autofocus: true,
         placeholder: 'Curate an awesome article!',
-        // readOnly: true, // tools Code doesn't support readOnly mode
         tools: {
             header: {
                 class: Header,
@@ -63,24 +62,40 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             underline: Underline,
         },
+        data: articleContent,
     });
 
-    const publishButton = document.getElementById('publish');
-    publishButton.addEventListener('click', async function () {
+    const saveButton = document.getElementById('save');
+    saveButton.addEventListener('click', async function () {
         const jsonData = await editor.save();
         if (jsonData.blocks[0].type !== 'header') {
-            alert('Your article should have a header as the first element. The header represents the title of the article.')
-            return
+            alert('Your article should have a header as the first element. The header represents the title of the article.');
+            return;
         }
 
-        await fetch(`${window.location.origin}/new-story`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonData)
-        });
+        if (window.location.href.includes('edit')) {
+            console.log('updating...')
+            const storyId = window.location.href.split('/')[4];
+            const response = await fetch(`${window.location.origin}/story/${storyId}`, {
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            });
+            
+            await response.json();
+        } else {
+            await fetch(`${window.location.origin}/new-story`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            });
+        }
         setTimeout(function () {
             window.location.replace(window.location.origin);
         }, 1000)

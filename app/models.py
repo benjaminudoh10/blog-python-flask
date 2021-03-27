@@ -77,9 +77,9 @@ class Article(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
     @classmethod
-    def get(cls, id):
+    def get(cls, id, convert_to_html=True):
         article = cls.query.get(id)
-        return cls.to_json(article)
+        return cls.to_json(article, convert_to_html)
 
     @classmethod
     def get_all_articles(cls):
@@ -94,13 +94,21 @@ class Article(db.Model):
         return cls.to_json(article)
 
     @classmethod
-    def to_json(cls, data):
+    def update(cls, id, content):
+        article = cls.query.get(id)
+        article.content = content
+        db.session.add(article)
+        db.session.commit()
+        return cls.to_json(article)
+
+    @classmethod
+    def to_json(cls, data, convert_to_html=True):
         if isinstance(data, cls):
             content = json.loads(data.content)
             return {
                 'id': data.id,
                 'title': data.title,
-                'content': BlogContentParser(content).html(),
+                'content': convert_to_html and  BlogContentParser(content).html() or content,
                 'created_at': datetime.strftime(data.created_at, '%a %d, %Y'),
                 'updated_at': data.updated_at.isoformat(),
             }

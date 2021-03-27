@@ -13,6 +13,9 @@ class BlogContentParser:
             'image': self.build_image,
             'paragraph': self.build_paragraph,
             'list': self.build_list,
+            'alert': self.build_alert,
+            'checklist': self.build_checklist,
+            'quote': self.build_quote,
         }
 
         built_html_blocks = [block_builder.get(block['type'])(block) for block in blocks]
@@ -35,7 +38,7 @@ class BlogContentParser:
 
     def build_image(self, block):
         assert block['type'] == 'image'
-        print(block)
+
         tag = 'img'
         data = block['data']['file']['url']
         caption = block['data']['caption']
@@ -68,6 +71,36 @@ class BlogContentParser:
         items = "\n".join(items)
 
         return f"<{tag}>{items}</{tag}>"
+
+    def build_quote(self, block):
+        assert block['type'] == 'quote'
+
+        tag = 'div'
+        text = block['data']['text']
+        caption = block['data']['caption']
+
+        # todo: cater for alignment (left or center)
+        return f'<{tag} class="quote"><p>{text}</p><span>{caption}</span></{tag}>'
+    
+    def build_checklist(self, block):
+        assert block['type'] == 'checklist'
+
+        tag = 'div'
+        checklists = [
+            f"<input type=\"checkbox\" name=\"blog-checklist\" checked={item['checked']} /><label>{item['text']}</label>"
+            for item in block['data']['items']
+        ]
+        checklists = '<br>'.join(checklists)
+        return f'<{tag} class="checklist">{checklists}</{tag}>'
+    
+    def build_alert(self, block):
+        assert block['type'] == 'alert'
+
+        tag = 'span'
+        text = block['data']['message']
+        type = block['data']['type']
+
+        return f'<div class="alert-container"><{tag} class="alert alert-{type}">{text}</{tag}></div>'
 
     def html(self):
         return self._html

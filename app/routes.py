@@ -157,19 +157,35 @@ def new_story():
             'title': data['blocks'][0]['data']['text']
         }
         models.Article.insert(article)
-        return 'true'
+        return {
+            'status': 200,
+            'message': 'Article successfully created',
+        }
 
-    return render_template('write.html')
+    return render_template('write.html', article={'content': {}})
 
 @app.route('/stories')
 def stories():
     articles = models.Article.get_all_articles()
     return render_template('articles.html', articles=articles)
 
-@app.route('/story/<int:story_id>')
+@app.route('/story/<int:story_id>', methods=['GET', 'PUT'])
 def story(story_id):
+    if request.method == 'PUT':
+        data = request.get_json()
+        models.Article.update(story_id, json.dumps(data))
+        return {
+            'status': 200,
+            'message': 'Article updated successfully'
+        }
+
     article = models.Article.get(story_id)
     return render_template('article.html', article=article)
+
+@app.route('/story/<int:story_id>/edit')
+def edit_story(story_id):
+    article = models.Article.get(story_id, False)
+    return render_template('write.html', article=article)
 
 @app.route('/story/fetch_url', methods=['POST'])
 def upload_by_url():

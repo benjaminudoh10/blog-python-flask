@@ -12,12 +12,12 @@
 {% block content %}
     {% block navbar %}{% endblock %}
     <div id="pub-bar">
-        <nav id="publish-bar">
+        <nav id="save-bar">
             <div>
                 {% include 'snippets/short-logo.html' %}
                 <p>Draft in Benjamin Udoh</p>
             </div>
-            <span id="publish">Publish</span>
+            <span id="save">Save</span>
         </nav>
     </div>
     <div id="editor-container">
@@ -25,6 +25,9 @@
     </div>
 
     {% block scripts %}
+        <script>
+            const articleContent = {{ article.content | tojson }};
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
