@@ -72,7 +72,9 @@ class Article(db.Model):
     '''
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String, nullable=False)
+    first_paragraph = db.Column(db.String)
     content = db.Column(db.Text, nullable=False)
+    draft = db.Column(db.Boolean, nullable=True, default=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
