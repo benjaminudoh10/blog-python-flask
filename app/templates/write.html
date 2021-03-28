@@ -15,7 +15,7 @@
         <nav id="save-bar">
             <div>
                 {% include 'snippets/short-logo.html' %}
-                <p>Draft in Benjamin Udoh</p>
+                <p>Draft in {{ current_user.name }}</p>
             </div>
             <span id="save">Save</span>
         </nav>
@@ -23,7 +23,16 @@
     <div id="editor-container">
         <div id="editor"></div>
     </div>
-
+    <div id="modal-container">
+        <div id="modal">
+            <span id="close">&times;</span>
+            <h1>Modals are cool</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur dolorum ea qui velit repudiandae, 
+                enim eius iusto maxime obcaecati pariatur a voluptate beatae! Similique voluptas laborum hic ipsa id odio?
+            </p>
+        </div>
+    </div>
     {% block scripts %}
         <script>
             const articleContent = {{ article.content | tojson }};

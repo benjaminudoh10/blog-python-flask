@@ -66,8 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const saveButton = document.getElementById('save');
-    saveButton.addEventListener('click', async function () {
+    const modalContainer = document.getElementById('modal-container');
+    const editorContainer = document.getElementById('editor-container');
+    saveButton.addEventListener('click', async () => {
         const jsonData = await editor.save();
+        modalContainer.classList.add('show');
+        editorContainer.classList.add('no-event');
+        return;
         if (jsonData.blocks[0].type !== 'header') {
             alert('Your article should have a header as the first element. The header represents the title of the article.');
             return;
@@ -99,5 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {
             window.location.replace(`${window.location.origin}/stories`);
         }, 1000);
+    });
+
+    const closeButton = document.getElementById('close');
+    closeButton.addEventListener('click', () => {
+        modalContainer.classList.remove('show');
+        editorContainer.classList.remove('no-event');
     });
 });

@@ -37,3 +37,42 @@
 #editor-container {
     margin: 10px 250px 0;
 }
+
+#modal-container {
+    display: flex;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#modal-container.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#modal {
+    background-color: white;
+    width: 600px;
+    max-width: 100%;
+    padding: 30px 50px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#editor-container.no-event {
+    pointer-events: none;
+}
+
+#modal span#close {
+    position: relative;
+    left: 100%;
+    font-size: 24px;
+}
