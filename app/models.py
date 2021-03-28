@@ -86,9 +86,14 @@ class Article(db.Model):
         return cls.to_json(article, convert_to_html)
 
     @classmethod
-    def get_all_articles(cls):
-        articles = cls.query.all()
+    def get_articles(cls, page=1):
+        articles = cls.query.order_by(cls.updated_at.desc()) \
+            .offset((page - 1) * 10).limit(10).all()
         return cls.to_json(articles)
+    
+    @classmethod
+    def get_user_posts(cls):
+        return []
 
     @classmethod
     def insert(cls, article):

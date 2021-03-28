@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 class: ImageTool,
                 config: {
                     endpoints: {
-                        byUrl: 'http://localhost:5000/story/fetch_url',
-                        byFile: 'http://localhost:5000/story/upload_file',
+                        byUrl: 'https://localhost:5000/story/fetch_url',
+                        byFile: 'https://localhost:5000/story/upload_file',
                     }
                 }
             },

@@ -36,7 +36,7 @@ async function fetchPosts() {
 
     setTimeout(async () => {
         try {
-            const API_URL = `http://127.0.0.1:5000/posts`;
+            const API_URL = `https://localhost:5000/posts`;
             const response = await fetch(API_URL);
             if (!response.ok) {
                 throw new Error(`An error occurred: ${response.status}`);
