@@ -170,7 +170,7 @@ def stories():
     articles = models.Article.get_articles(draft)
     return render_template('articles.html', articles=articles)
 
-@app.route('/story/<int:story_id>', methods=['GET', 'PUT'])
+@app.route('/story/<int:story_id>', methods=['GET', 'PUT', 'DELETE'])
 def story(story_id):
     if request.method == 'PUT':
         data = request.get_json()
@@ -178,6 +178,13 @@ def story(story_id):
         return {
             'status': 200,
             'message': 'Article updated successfully'
+        }
+    
+    if request.method =='DELETE':
+        models.Article.delete(story_id)
+        return {
+            'status': 200,
+            'message': 'Article deleted successfully'
         }
 
     article = models.Article.get(story_id)

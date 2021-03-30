@@ -21,24 +21,36 @@
 
     <div id="articles-container">
         <div id="tab">
-            <a href="{{ url_for('stories') }}"><span class="{{ (request.args.get('draft') == None) and 'active' or '' }}">Published</span></a>
-            <a href="{{ url_for('stories') }}?draft=1"><span class="{{ (request.args.get('draft') == '1') and 'active' or '' }}">Drafts</span></a>
+            <a href="{{ url_for('stories') }}">
+                <span class="{{ (request.args.get('draft') == None) and 'active' or '' }}">Published</span>
+            </a>
+            <a href="{{ url_for('stories') }}?draft=1">
+                <span class="{{ (request.args.get('draft') == '1') and 'active' or '' }}">Drafts</span>
+            </a>
             <!-- <span>Responses 1</span> -->
         </div>
         {% for article in articles %}
             <div class="article">
                 <p class="title">
-                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">{{ article.title }}</a>
+                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">
+                        {{ article.title }}
+                    </a>
                 </p>
                 <p class="description">
-                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">{{ article.first_paragraph }}</a>
+                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">
+                        {{ article.first_paragraph }}
+                    </a>
                 </p>
                 <div>
                     <span class="date">Published on {{ article.created_at }} · 2 min read</span>
                     <a class="action edit" href="{{ url_for('edit_story', story_id=article.id) }}">Edit</a>
-                    <a class="action delete" href="{{ url_for('edit_story', story_id=article.id) }}">Delete</a>
+                    <a class="action delete" data-id="{{ article.id }}">Delete</a>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    {% block scripts %}
+        <script src="{{ url_for('static', filename='js/articles.js') }}"></script>
+    {% endblock %}
 {% endblock %}

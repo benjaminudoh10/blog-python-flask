@@ -79,6 +79,7 @@ class Article(db.Model):
     draft = db.Column(db.Boolean, nullable=True, default=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
+    deleted_at = db.Column(db.DateTime)
 
     @classmethod
     def get(cls, id, convert_to_html=True):
@@ -87,7 +88,7 @@ class Article(db.Model):
 
     @classmethod
     def get_articles(cls, draft=False, page=1):
-        articles = cls.query.filter_by(draft=draft) \
+        articles = cls.query.filter_by(draft=draft, deleted_at=None) \
             .order_by(cls.updated_at.desc()) \
             .offset((page - 1) * 10).limit(10).all()
         return cls.to_json(articles)
@@ -113,6 +114,13 @@ class Article(db.Model):
         db.session.add(article)
         db.session.commit()
         return cls.to_json(article)
+    
+    @classmethod
+    def delete(cls, id):
+        article = cls.query.get(id)
+        article.deleted_at = datetime.now()
+        db.session.add(article)
+        db.session.commit()
 
     @classmethod
     def to_json(cls, data, convert_to_html=True):
