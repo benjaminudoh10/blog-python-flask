@@ -11,7 +11,7 @@
 
 {% block content %}
     {% block navbar %}{% endblock %}
-    <div id="pub-bar">
+    <div id="page-container">
         <nav id="save-bar">
             <div>
                 {% include 'snippets/short-logo.html' %}
@@ -19,18 +19,40 @@
             </div>
             <span id="save">Save</span>
         </nav>
+        <div id="editor-container">
+            <div id="editor"></div>
+        </div>
     </div>
-    <div id="editor-container">
-        <div id="editor"></div>
-    </div>
-    <div id="modal-container">
+    <div id="modal-container" style="display: none;">
         <div id="modal">
             <span id="close">&times;</span>
-            <h1>Modals are cool</h1>
-            <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur dolorum ea qui velit repudiandae, 
-                enim eius iusto maxime obcaecati pariatur a voluptate beatae! Similique voluptas laborum hic ipsa id odio?
-            </p>
+            <div id="article-summary">
+                <div id="left">
+                    <h3>Story Preview</h3>
+                    <div id="no-image">
+                        <p>Include a high quality image in your story to make it more inviting to readers.</p>
+                    </div>
+                    <input type="text" placeholder="Write a preview title" id="article-title">
+                    <input type="text" placeholder="Write a preview subtitle..." id="article-desc">
+                    <p><strong>Note:</strong> Changes here will affect how your story appears in public places like the homepage — not the story itself.</p>
+                </div>
+                <div id="right">
+                    <p id="publishing">Publishing to: <strong>{{ current_user.name }}</strong></p>
+                    <p id="tag">Add or change tags (up to 5) so readers know what your story is about</p>
+                    <input type="text" placeholder="Add a tag..." id="select-tags">
+                    <p id="partner-program">
+                        In order to make your story eligible to earn as part of Medium’s metered paywall, 
+                        join the <a href="/earn">Partner Program.</a>
+                    </p>
+                    <p id="learn-more">
+                        <a href="/learn">Learn more</a> about what happens to your post when you publish.
+                    </p>
+                    <div id="actions">
+                        <button id="publish" class="primary">Publish now</button>
+                        <button id="draft" class="secondary">Save as Draft</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% block scripts %}

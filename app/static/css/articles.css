@@ -1,9 +1,52 @@
+@media only screen and (max-width: 1080px) {
+    #heading {
+        padding: 0 200px;
+    }
+
+    #articles-container {
+        padding: 0 200px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #heading {
+        padding: 0 50px;
+    }
+
+    #articles-container {
+        padding: 0 50px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #heading {
+        padding: 0 15px;
+    }
+
+    #heading > h1 {
+        font-size: 24px;
+    }
+
+    #articles-container {
+        padding: 0 15px;
+    }
+}
+
+@media only screen and (min-width: 1080px) {
+    #heading {
+        padding: 0 300px;
+    }
+
+    #articles-container {
+        padding: 0 300px;
+    }
+}
+
 #heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 120px;
-    padding: 0 200px;
+    margin-top: 20px;
 }
 
 .button {
@@ -20,24 +63,25 @@
     color: rgba(26, 137, 23, 1);
 }
 
-#heading > div > a:first-child {
-    margin-right: 10px;
+.green:hover {
+    background-color: rgba(26, 137, 23, 1);
+    color: white;
 }
 
-#articles-container {
-    padding: 0 200px;
+#heading > div > a:first-child {
+    margin-right: 10px;
 }
 
 #tab {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 #tab span {
     color: #999999;
     padding: 5px 15px;
-    /* border-bottom: 1px solid #cccccc; */
     cursor: pointer;
 }
 
@@ -45,9 +89,14 @@
     padding-left: 0;
 }
 
-
 .article > p {
-    color: #888888;
+    color: inherit;
+}
+
+.article > p.title {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .article a {
@@ -57,13 +106,36 @@
 
 .article {
     padding: 10px 0;
-    border-top: 1px solid #cccccc;
+    background-color: rgba(26, 137, 23, 0.21);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.article > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.article > div > span {
+    font-size: 12px;
+    margin-right: 15px;
+}
+
+.article > div > .action {
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 5px;
+    color: white;
+    font-size: 10px;
 }
 
 a.edit {
-    cursor: pointer;
-    padding: 5px 20px;
-    border: 1px solid rgba(26, 137, 23, 1);
-    border-radius: 5px;
-    color: rgba(26, 137, 23, 1);
+    background-color: rgba(26, 137, 23, 0.51);
+    margin-right: 10px;
+}
+
+a.delete {
+    background-color: rgba(182, 48, 48, 0.726);
 }

@@ -1,9 +1,37 @@
-#save-bar {
+@media only screen and (max-width: 1080px) {
+    #page-container {
+        padding: 10px 100px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #page-container {
+        padding: 10px 25px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    #page-container {
+        padding: 10px 10px;
+    }
+}
+
+@media only screen and (min-width: 1080px) {
+    #page-container {
+        padding: 10px 250px;
+    }
+}
+
+/* #page-container {
     padding: 10px 250px;
+} */
+
+#save-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 0;
+    padding: 0;
 }
 
 #save-bar > div {
@@ -34,9 +62,36 @@
     background-color: #0f730c;
 }
 
-#editor-container {
-    margin: 10px 250px 0;
+
+/* editor related tweaks */
+.ce-block__content {
+    max-width: 100%;
+    margin: 0 20px;
 }
+
+.ce-toolbar__plus {
+    left: -10px;
+}
+
+.ce-toolbar__content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+.ce-toolbox {
+    margin-left: 15px;
+}
+
+.codex-editor__redactor {
+    padding-bottom: 50px !important;
+    margin-right: 0;
+}
+
+.codex-editor {
+    width: 96%;
+}
+/* editor related tweaks */
 
 #modal-container {
     display: flex;
@@ -46,11 +101,12 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    min-width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 1);
     pointer-events: none;
     transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
 }
 
 #modal-container.show {
@@ -58,13 +114,38 @@
     pointer-events: auto;
 }
 
+@media only screen and (max-width: 768px) {
+    #modal {
+        padding: 30px 20px;
+    }
+
+    #article-summary {
+        flex-direction: column;
+    }
+
+    #article-summary > #left {
+        margin-right: 0;
+        margin-bottom: 40px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #modal {
+        padding: 30px 20px;
+    }
+
+    #article-summary > #left {
+        margin-right: 65px;
+    }
+}
+
 #modal {
     background-color: white;
-    width: 600px;
+    width: 80%;
     max-width: 100%;
-    padding: 30px 50px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #editor-container.no-event {
@@ -73,6 +154,107 @@
 
 #modal span#close {
     position: relative;
-    left: 100%;
-    font-size: 24px;
+    left: 98%;
+    font-size: 32px;
+    cursor: pointer;
+    opacity: 0.3;
+}
+
+#article-summary {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+#article-summary > #left > * {
+    margin-bottom: 20px;
+}
+
+#article-summary > #left > input {
+    border: 0;
+    border-bottom: 1px solid rgba(189, 185, 185, 0.4);
+    outline: none;
+    padding: 0 0 10px 5px;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#article-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#article-title::placeholder {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#article-summary p {
+    font-size: 13px;
+    opacity: 0.5;
+}
+
+#no-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(201, 197, 197, 0.15);
+    padding: 75px;
+}
+
+#no-image p {
+    opacity: 0.5;
+    font-size: 12px;
+    text-align: center;
+}
+
+#article-summary > #right > * {
+    margin-bottom: 20px;
+}
+
+#right > #publishing {
+    font-size: 16px;
+    opacity: 1;
+}
+
+#right > #select-tags {
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-color: rgba(189, 185, 185, 0.1);
+    width: 100%;
+    outline: none;
+}
+
+#right > p > a {
+    color: inherit;
+}
+
+#right > p {
+    line-height: 20px;
+}
+
+#right > #actions > button {
+    cursor: pointer;
+    padding: 12px 25px;
+    border: 0;
+    border-radius: 5px;
+}
+
+#right > #actions > .primary {
+    background-color: #1a8917;
+    color: white;
+}
+
+#right > #actions > .primary:hover {
+    background-color: #0f730c;
+}
+
+#right > #actions > .secondary {
+    color: rgba(0, 0, 0, 0.54);
+    background-color: white;
+}
+
+#right > #actions > .secondary:hover {
+    color: rgba(0, 0, 0, 0.68);
+    background-color: rgba(0, 0, 0, 0.14);
 }

@@ -10,14 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    {% block navbar %}
-        {{ super() }}
-    {% endblock %}
-    
+    {% block navbar %}{% endblock %}
+
     <div id="heading">
         <h1>Your stories</h1>
         <div>
-            <a class="button">Import a story</a>
             <a class="button green" href="{{ url_for('new_story') }}">Write a story</a>
         </div>
     </div>
@@ -30,10 +27,17 @@
         </div>
         {% for article in articles %}
             <div class="article">
-                <h3><a href="/story/{{ article.id }}">{{ article.title }}</a></h3>
-                <p><a href="/story/{{ article.id }}">MongoDB is a popular NoSQL (not only SQL) database which has seen wide adoption in the industry because of its ease of use and efficiency.</a></p>
-                <p>Published on {{ article.created_at }} · 2 min read</p>
-                <a class="edit" href="/story/{{ article.id }}/edit">Edit</a>
+                <p class="title">
+                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">{{ article.title }}</a>
+                </p>
+                <p class="description">
+                    <a class="article-anchor" href="{{ url_for('story', story_id=article.id) }}">{{ article.first_paragraph }}</a>
+                </p>
+                <div>
+                    <span class="date">Published on {{ article.created_at }} · 2 min read</span>
+                    <a class="action edit" href="{{ url_for('edit_story', story_id=article.id) }}">Edit</a>
+                    <a class="action delete" href="{{ url_for('edit_story', story_id=article.id) }}">Delete</a>
+                </div>
             </div>
         {% endfor %}
     </div>

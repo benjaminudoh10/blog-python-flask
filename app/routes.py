@@ -151,8 +151,10 @@ def new_story():
     if request.method == 'POST':
         data = request.get_json()
         article = {
-            'content': json.dumps(data),
-            'title': data['blocks'][0]['data']['text']
+            'content': json.dumps(data['content']),
+            'title': data['title'],
+            'first_paragraph': data['first_paragraph'],
+            'draft': data['draft'],
         }
         models.Article.insert(article)
         return {
@@ -171,7 +173,7 @@ def stories():
 def story(story_id):
     if request.method == 'PUT':
         data = request.get_json()
-        models.Article.update(story_id, json.dumps(data))
+        models.Article.update(story_id, data)
         return {
             'status': 200,
             'message': 'Article updated successfully'

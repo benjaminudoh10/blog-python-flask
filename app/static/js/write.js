@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const editor = new EditorJS({
         holder: 'editor',
-        autofocus: true,
         placeholder: 'Curate an awesome article!',
         tools: {
             header: {
@@ -47,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 class: ImageTool,
                 config: {
                     endpoints: {
-                        byUrl: 'https://localhost:5000/story/fetch_url',
-                        byFile: 'https://localhost:5000/story/upload_file',
+                        byUrl: `${window.location.origin}/story/fetch_url`,
+                        byFile: `${window.location.origin}/story/upload_file`,
                     }
                 }
             },
@@ -68,42 +67,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveButton = document.getElementById('save');
     const modalContainer = document.getElementById('modal-container');
     const editorContainer = document.getElementById('editor-container');
+    const titleInput = document.getElementById('article-title');
+    const descInput = document.getElementById('article-desc');
+    let editorData = {};
     saveButton.addEventListener('click', async () => {
-        const jsonData = await editor.save();
+        modalContainer.style.display = 'flex';
+        editorData = await editor.save();
+        console.log(editorData);
         modalContainer.classList.add('show');
         editorContainer.classList.add('no-event');
+        
+        const textBlocks = editorData.blocks.filter(block => {
+            return block.type === 'header' || block.type === 'paragraph'
+        });
+        titleInput.value = textBlocks[0] && textBlocks[0]?.data?.text || '';
+        descInput.value = textBlocks[1] && textBlocks[1]?.data?.text || '';
         return;
-        if (jsonData.blocks[0].type !== 'header') {
-            alert('Your article should have a header as the first element. The header represents the title of the article.');
-            return;
-        }
-
-        if (window.location.href.includes('edit')) {
-            console.log('updating...')
-            const storyId = window.location.href.split('/')[4];
-            const response = await fetch(`${window.location.origin}/story/${storyId}`, {
-                method: 'PUT',
-                mode: 'cors',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jsonData)
-            });
-            
-            await response.json();
-        } else {
-            await fetch(`${window.location.origin}/new-story`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jsonData)
-            });
-        }
-        setTimeout(function () {
-            window.location.replace(`${window.location.origin}/stories`);
-        }, 1000);
     });
 
     const closeButton = document.getElementById('close');
@@ -111,4 +90,57 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContainer.classList.remove('show');
         editorContainer.classList.remove('no-event');
     });
+
+    const publishButton = document.getElementById('publish');
+    publishButton.addEventListener('click', async () => {
+        const data = {
+            title: titleInput.value || '',
+            first_paragraph: descInput.value,
+            draft: false,
+            content: editorData,
+        }
+
+        await saveArticle(data);
+    });
+
+    const draftButton = document.getElementById('draft');
+    draftButton.addEventListener('click', async () => {
+        const data = {
+            title: titleInput.value || '',
+            first_paragraph: descInput.value,
+            draft: true,
+            content: editorData,
+        }
+
+        await saveArticle(data);
+    });
 });
+
+async function saveArticle(data) {
+    if (window.location.href.includes('edit')) {
+        console.log('updating...')
+        const storyId = window.location.href.split('/')[4];
+        const response = await fetch(`${window.location.origin}/story/${storyId}`, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        await response.json();
+    } else {
+        await fetch(`${window.location.origin}/new-story`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+    setTimeout(function () {
+        window.location.replace(`${window.location.origin}/stories`);
+    }, 1000);
+}

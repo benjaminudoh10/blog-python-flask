@@ -103,9 +103,12 @@ class Article(db.Model):
         return cls.to_json(article)
 
     @classmethod
-    def update(cls, id, content):
+    def update(cls, id, data):
         article = cls.query.get(id)
-        article.content = content
+        article.content = json.dumps(data['content'])
+        article.draft = data['draft']
+        article.first_paragraph = data['first_paragraph']
+        article.title = data['title']
         db.session.add(article)
         db.session.commit()
         return cls.to_json(article)
@@ -117,6 +120,7 @@ class Article(db.Model):
             return {
                 'id': data.id,
                 'title': data.title,
+                'first_paragraph': data.first_paragraph or '',
                 'content': convert_to_html and  BlogContentParser(content).html() or content,
                 'created_at': datetime.strftime(data.created_at, '%a %d, %Y'),
                 'updated_at': data.updated_at.isoformat(),
