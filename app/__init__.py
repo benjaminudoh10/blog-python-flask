@@ -24,8 +24,10 @@ def after_request(response):
 
 from . import routes, models
 
+admin.add_view(ModelView(models.Article, db.session))
 admin.add_view(ModelView(models.Topic, db.session))
 admin.add_view(ModelView(models.TopicGroup, db.session))
+admin.add_view(ModelView(models.User, db.session))
 
 @login_manager.user_loader
 def load_user(user_id):
