@@ -86,8 +86,9 @@ class Article(db.Model):
         return cls.to_json(article, convert_to_html)
 
     @classmethod
-    def get_articles(cls, page=1):
-        articles = cls.query.order_by(cls.updated_at.desc()) \
+    def get_articles(cls, draft=False, page=1):
+        articles = cls.query.filter_by(draft=draft) \
+            .order_by(cls.updated_at.desc()) \
             .offset((page - 1) * 10).limit(10).all()
         return cls.to_json(articles)
     

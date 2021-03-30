@@ -21,9 +21,9 @@
 
     <div id="articles-container">
         <div id="tab">
-            <span>Drafts</span>
-            <span>Published 2</span>
-            <span>Responses 1</span>
+            <a href="{{ url_for('stories') }}"><span class="{{ (request.args.get('draft') == None) and 'active' or '' }}">Published</span></a>
+            <a href="{{ url_for('stories') }}?draft=1"><span class="{{ (request.args.get('draft') == '1') and 'active' or '' }}">Drafts</span></a>
+            <!-- <span>Responses 1</span> -->
         </div>
         {% for article in articles %}
             <div class="article">

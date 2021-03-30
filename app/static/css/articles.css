@@ -85,6 +85,21 @@
     cursor: pointer;
 }
 
+#tab span:hover {
+    color: rgba(26, 137, 23, 1);
+    border-bottom: 4px solid rgba(26, 137, 23, 0.51);
+}
+
+#tab a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#tab .active {
+    color: rgba(26, 137, 23, 1);
+    border-bottom: 4px solid rgba(26, 137, 23, 0.51);
+}
+
 #tab > span:first-child {
     padding-left: 0;
 }

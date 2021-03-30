@@ -25,7 +25,7 @@ def home():
     topics = models.Topic.get_topics()
 
     page = request.args.get('page', 1, type=int)
-    posts = models.Article.get_articles(page)
+    posts = models.Article.get_articles(False, page)
     my_posts = models.Article.get_user_posts()
 
     context = {
@@ -166,7 +166,8 @@ def new_story():
 
 @app.route('/stories')
 def stories():
-    articles = models.Article.get_articles()
+    draft = request.args.get('draft', False)
+    articles = models.Article.get_articles(draft)
     return render_template('articles.html', articles=articles)
 
 @app.route('/story/<int:story_id>', methods=['GET', 'PUT'])
