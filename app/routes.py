@@ -10,7 +10,12 @@ from flask import (
     request,
     render_template,
 )
-from flask_login import login_required, login_user, logout_user
+from flask_login import (
+    login_required,
+    login_user,
+    logout_user,
+    current_user,
+)
 from werkzeug.utils import secure_filename
 from oauthlib.oauth2 import WebApplicationClient
 import requests
@@ -26,7 +31,8 @@ def home():
 
     page = request.args.get('page', 1, type=int)
     posts = models.Article.get_articles(False, page)
-    my_posts = models.Article.get_user_posts()
+    my_posts = current_user.is_authenticated and \
+        models.Article.get_user_posts(current_user.id) or []
 
     context = {
         'topics': topics,
@@ -147,6 +153,7 @@ def posts():
     return jsonify(posts)
 
 @app.route('/new-story', methods=['GET', 'POST'])
+@login_required
 def new_story():
     if request.method == 'POST':
         data = request.get_json()
@@ -155,6 +162,7 @@ def new_story():
             'title': data['title'],
             'first_paragraph': data['first_paragraph'],
             'draft': data['draft'],
+            'user_id': current_user.id,
         }
         models.Article.insert(article)
         return {
@@ -165,12 +173,15 @@ def new_story():
     return render_template('write.html', article={'content': {}})
 
 @app.route('/stories')
+@login_required
 def stories():
     draft = request.args.get('draft', False)
-    articles = models.Article.get_articles(draft)
+    articles = current_user.is_authenticated and \
+        models.Article.get_user_posts(current_user.id, draft) or []
     return render_template('articles.html', articles=articles)
 
 @app.route('/story/<int:story_id>', methods=['GET', 'PUT', 'DELETE'])
+@login_required
 def story(story_id):
     if request.method == 'PUT':
         data = request.get_json()
@@ -191,11 +202,13 @@ def story(story_id):
     return render_template('article.html', article=article)
 
 @app.route('/story/<int:story_id>/edit')
+@login_required
 def edit_story(story_id):
     article = models.Article.get(story_id, False)
     return render_template('write.html', article=article)
 
 @app.route('/story/fetch_url', methods=['POST'])
+@login_required
 def upload_by_url():
     return {
         'success' : 1,
@@ -205,6 +218,7 @@ def upload_by_url():
     }
 
 @app.route('/story/upload_file', methods=['POST'])
+@login_required
 def upload_file():
     failed_response = {
         'success': 0

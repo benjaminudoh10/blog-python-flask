@@ -77,6 +77,7 @@ class Article(db.Model):
     first_paragraph = db.Column(db.String)
     content = db.Column(db.Text, nullable=False)
     draft = db.Column(db.Boolean, nullable=True, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
     deleted_at = db.Column(db.DateTime)
@@ -94,8 +95,10 @@ class Article(db.Model):
         return cls.to_json(articles)
     
     @classmethod
-    def get_user_posts(cls):
-        return []
+    def get_user_posts(cls, user_id, draft=False):
+        articles = cls.query.filter_by(user_id=user_id, draft=draft, deleted_at=None) \
+            .order_by(cls.updated_at.desc()).all()
+        return cls.to_json(articles)
 
     @classmethod
     def insert(cls, article):
@@ -111,6 +114,7 @@ class Article(db.Model):
         article.draft = data['draft']
         article.first_paragraph = data['first_paragraph']
         article.title = data['title']
+        article.updated_at = datetime.now()
         db.session.add(article)
         db.session.commit()
         return cls.to_json(article)
@@ -144,6 +148,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String)
     email = db.Column(db.String, unique=True, nullable=False)
     profile_pic = db.Column(db.String)
+    articles = db.relationship(Article, backref='user', lazy=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
 
