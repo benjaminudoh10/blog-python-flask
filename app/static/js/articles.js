@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const button of deleteButtons) {
         button.addEventListener('click', async () => {
             const storyId = button.attributes['data-id'].nodeValue;
+            const confirmDelete = confirm('Are you sure you want to delete this article?');
+            if (!confirmDelete) return;
             const response = await fetch(`${window.location.origin}/story/${storyId}`, {
                 method: 'DELETE',
                 mode: 'cors',
