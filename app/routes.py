@@ -1,6 +1,5 @@
 import os
 import json
-from datetime import datetime
 
 from flask import (
     request,
@@ -20,19 +19,19 @@ from werkzeug.utils import secure_filename
 from oauthlib.oauth2 import WebApplicationClient
 import requests
 
-from . import app, models
+from . import app, Article, User, Topic, TopicGroup
 from .utils import allowed_file, get_google_provider_cfg
 
 client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
 @app.route('/')
 def home():
-    topics = models.Topic.get_topics()
+    topics = Topic.get_topics()
 
     page = request.args.get('page', 1, type=int)
-    posts = models.Article.get_articles(False, page)
+    posts = Article.get_articles(False, page)
     my_posts = current_user.is_authenticated and \
-        models.Article.get_user_posts(current_user.id) or []
+        Article.get_user_posts(current_user.id) or []
 
     context = {
         'topics': topics,
@@ -105,7 +104,7 @@ def login_callback():
         'name': name,
         'profile_pic': profile_pic,
     }
-    user = models.User.get_or_create(user_json)
+    user = User.get_or_create(user_json)
 
     login_user(user)
 
@@ -119,7 +118,7 @@ def logout():
 
 @app.route('/topics')
 def topics():
-    topic_groups = models.TopicGroup.get()
+    topic_groups = TopicGroup.get()
 
     context = {
         'groups': topic_groups
@@ -164,7 +163,7 @@ def new_story():
             'draft': data['draft'],
             'user_id': current_user.id,
         }
-        models.Article.insert(article)
+        Article.insert(article)
         return {
             'status': 200,
             'message': 'Article successfully created',
@@ -177,7 +176,7 @@ def new_story():
 def stories():
     draft = request.args.get('draft', False)
     articles = current_user.is_authenticated and \
-        models.Article.get_user_posts(current_user.id, draft) or []
+        Article.get_user_posts(current_user.id, draft) or []
     return render_template('articles.html', articles=articles)
 
 @app.route('/story/<int:story_id>', methods=['GET', 'PUT', 'DELETE'])
@@ -185,26 +184,26 @@ def stories():
 def story(story_id):
     if request.method == 'PUT':
         data = request.get_json()
-        models.Article.update(story_id, data)
+        Article.update(story_id, data)
         return {
             'status': 200,
             'message': 'Article updated successfully'
         }
     
     if request.method =='DELETE':
-        models.Article.delete(story_id)
+        Article.delete(story_id)
         return {
             'status': 200,
             'message': 'Article deleted successfully'
         }
 
-    article = models.Article.get(story_id)
+    article = Article.get(story_id)
     return render_template('article.html', article=article)
 
 @app.route('/story/<int:story_id>/edit')
 @login_required
 def edit_story(story_id):
-    article = models.Article.get(story_id, False)
+    article = Article.get(story_id, False)
     return render_template('write.html', article=article)
 
 @app.route('/story/fetch_url', methods=['POST'])
