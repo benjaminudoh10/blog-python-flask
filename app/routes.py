@@ -38,7 +38,7 @@ def home():
         'my_posts': my_posts,
         'posts': posts,
     }
-    return render_template('home1.html', **context)
+    return render_template('home.html', **context)
 
 @app.route('/login')
 def login():

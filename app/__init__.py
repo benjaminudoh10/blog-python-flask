@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, url_for
+from flask import Flask, redirect, request, url_for, render_template
 from flask_admin.contrib.sqla import ModelView
 from oauthlib.oauth2 import WebApplicationClient
 import requests
@@ -13,7 +13,7 @@ from config import Config
 
 def create_app(config=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config)
     register_extensions(app)
 
     @login_manager.user_loader
@@ -25,6 +25,10 @@ def create_app(config=Config):
         header = response.headers
         header['Access-Control-Allow-Origin'] = '*'
         return response
+
+    @app.errorhandler(404)
+    def bad_request(error):
+        return render_template('400.html')
 
     return app
 
