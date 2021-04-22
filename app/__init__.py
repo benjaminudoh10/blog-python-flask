@@ -8,6 +8,7 @@ from .models.article import Article
 from .models.user import User
 from .models.topic import Topic
 from .models.topic_group import TopicGroup
+from .models.comment import Comment
 
 from config import Config
 
@@ -39,6 +40,7 @@ def register_extensions(app):
     login_manager.init_app(app)
 
     admin.init_app(app)
+    admin.add_view(ModelView(Comment, db.session))
     admin.add_view(ModelView(Article, db.session))
     admin.add_view(ModelView(Topic, db.session))
     admin.add_view(ModelView(TopicGroup, db.session))

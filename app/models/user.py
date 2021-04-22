@@ -6,13 +6,14 @@ from flask_login import UserMixin
 from . import db, BaseModel
 
 
-class User(db.Model, UserMixin):
+class User(BaseModel, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sub = db.Column(db.String, unique=True, nullable=False)
     name = db.Column(db.String)
     email = db.Column(db.String, unique=True, nullable=False)
     profile_pic = db.Column(db.String)
     articles = db.relationship('Article', backref='user', lazy=True)
+    comments = db.relationship('Comment', backref='user', lazy=True)
 
     @classmethod
     def get_by_id(cls, id):
@@ -41,7 +42,6 @@ class User(db.Model, UserMixin):
     @classmethod
     def to_json(cls, data):
         if isinstance(data, cls):
-            content = json.loads(data)
             return {
                 'id': data.id,
                 'sub': data.sub,

@@ -19,7 +19,7 @@ from werkzeug.utils import secure_filename
 from oauthlib.oauth2 import WebApplicationClient
 import requests
 
-from . import app, Article, User, Topic, TopicGroup
+from . import app, Article, User, Topic, TopicGroup, Comment
 from .utils import allowed_file, get_google_provider_cfg
 
 client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
@@ -170,6 +170,23 @@ def new_story():
         }
 
     return render_template('write.html', article={'content': {}})
+
+@app.route('/comment/<int:article_id>', methods=['POST'])
+@login_required
+def comment(article_id):
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        comment = {
+            'comment': data['comment'],
+            'user_id': current_user.id,
+            'article_id': article_id,
+        }
+        Comment.insert(comment)
+        return {
+            'status': 200,
+            'message': 'Comment successfully created',
+        }
 
 @app.route('/stories')
 @login_required

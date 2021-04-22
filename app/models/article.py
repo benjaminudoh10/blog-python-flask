@@ -3,6 +3,7 @@ from datetime import datetime
 
 from ..parser import BlogContentParser
 from . import db, BaseModel
+from .comment import Comment
 
 
 class Article(BaseModel):
@@ -14,6 +15,7 @@ class Article(BaseModel):
     first_paragraph = db.Column(db.String)
     content = db.Column(db.Text, nullable=False)
     draft = db.Column(db.Boolean, nullable=True, default=True)
+    comments = db.relationship('Comment', backref='article', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     @classmethod
@@ -69,6 +71,7 @@ class Article(BaseModel):
                 'title': data.title,
                 'first_paragraph': data.first_paragraph or '',
                 'content': convert_to_html and  BlogContentParser(content).html() or content,
+                'comments': [Comment.to_json(comment) for comment in data.comments],
                 'created_at': datetime.strftime(data.created_at, '%a %d, %Y'),
                 'updated_at': data.updated_at.isoformat(),
             }
